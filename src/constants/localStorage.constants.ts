@@ -1,0 +1,5 @@
+// TODO: Take it from env file
+export const NAME_OF_APPLICATION = 'PLAINPOKER';
+
+export const TOKEN_KEY = `${NAME_OF_APPLICATION}_KEY`;
+export const REFRESH_TOKEN_KEY = `${NAME_OF_APPLICATION}_REFRESH_TOKEN_KEY`;

@@ -82,22 +82,19 @@ module.exports = {
     'import/no-unresolved': 'off',
     'import/no-extraneous-dependencies': 'off',
     'import/prefer-default-export': 'off',
-    
     'prefer-promise-reject-errors': 'off',
-
     quotes: ['warn', 'single', { avoidEscape: true }],
-
-    // this rule, if on, would require explicit return type on the `render` function
     '@typescript-eslint/explicit-function-return-type': 'off',
-
-    // in plain CommonJS modules, you can't use `import foo = require('foo')` to pass this rule, so it has to be disabled
     '@typescript-eslint/no-var-requires': 'off',
-
-    // The core 'no-unused-vars' rules (in the eslint:recommended ruleset)
-    // does not work with type definitions
     'no-unused-vars': 'off',
-
-    // allow debugger during development only
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'max-len': 'off',
+    'class-method': 'off',
+    'class-methods-use-this': 'off',
+    'no-return-await': 'off',
+    'no-tabs': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    'camelcase': 'off'
   }
 }
