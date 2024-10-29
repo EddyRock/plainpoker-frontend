@@ -1,7 +1,6 @@
 module.exports = {
     useTabs: false,
     tabWidth: 2,
-    spaceBeforeFunctionParen: true,
     trailingComma: 'es5',
     singleQuote: true,
     bracketSpacing: true,
@@ -9,4 +8,4 @@ module.exports = {
     printWidth: 80,
     semi: false,
     vueIndentScriptAndStyle: true
-}
+  }

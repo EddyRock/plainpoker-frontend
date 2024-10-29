@@ -16,7 +16,7 @@ class ApiClient implements IApiClient {
     this.userService = new UserService();
   }
 }
-
+// TODO: Add supporting of threeshaking
 const Api = new ApiClient();
 
 export default Api;

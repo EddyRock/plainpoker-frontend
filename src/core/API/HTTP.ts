@@ -1,33 +1,45 @@
-import axios, { AxiosInstance } from 'axios';
-import { TOKEN_KEY } from 'src/constants/localStorage.constants';
+import axios, { AxiosInstance, AxiosError, AxiosResponse } from 'axios'
+import { TOKEN_KEY } from 'src/constants/localStorage.constants'
+
+export type TCustomAxiosError<T = any> = AxiosError<T> & {
+  code: string | number
+  message: string
+  response?: AxiosResponse | null
+  isAxiosError: boolean
+  config?: {
+    headers?: Record<string, string>
+  }
+  stack?: string
+}
 
 const responseInterceptors = {
-  onFulfill: (response: { data: any; }) => Promise.resolve(response.data),
-  onReject: (error: { data: any; response: { status: string; } }) => Promise.reject(error),
-};
+  onFulfill: (response: { data: any }) => Promise.resolve(response.data),
+  onReject: (error: TCustomAxiosError) => Promise.reject(error),
+}
 
 const requestInterceptors = {
   onFulfill: (config: any) => {
-    const localStorageToken = localStorage.getItem(TOKEN_KEY);
+    const localStorageToken = localStorage.getItem(TOKEN_KEY)
     if (localStorageToken && config.url !== '/auth/token/refresh/') {
-      config.headers.Authorization = `Bearer ${localStorageToken}`;
+      config.headers.Authorization = `Bearer ${localStorageToken}`
     }
 
-    return config;
+    return config
   },
-};
+}
 
-// TODO: Handle response, handle errors (401 - 403), and add redirect to login page if we don't have user
-// TODO: Take baseURL from .env file
 const instance: AxiosInstance = axios.create({
-  baseURL: 'http://127.0.0.1:8000/',
+  baseURL: import.meta.env.BASE_URL,
   headers: {
     Accept: 'application/json',
     'Content-type': 'application/json',
   },
-});
+})
 
-instance.interceptors.response.use(responseInterceptors.onFulfill, responseInterceptors.onReject);
-instance.interceptors.request.use(requestInterceptors.onFulfill);
+instance.interceptors.response.use(
+  responseInterceptors.onFulfill,
+  responseInterceptors.onReject
+)
+instance.interceptors.request.use(requestInterceptors.onFulfill)
 
-export default instance;
+export default instance

@@ -3,59 +3,77 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
-import Api from 'src/core/API';
+  import { defineComponent, onMounted } from 'vue'
+  import Api from 'src/core/API'
 
-import { useUserStore } from 'src/stores/user-store';
-import { useRouter } from 'vue-router';
+  import { useUserStore } from 'src/stores/user-store'
+  import { useRouter } from 'vue-router'
 
-import { TOKEN_KEY, REFRESH_TOKEN_KEY } from 'src/constants/localStorage.constants';
+  import {
+    TOKEN_KEY,
+    REFRESH_TOKEN_KEY,
+  } from 'src/constants/localStorage.constants'
 
-export default defineComponent({
-  name: 'App',
-  setup() {
-    const userStore = useUserStore();
-    const router = useRouter();
+  import { type IUser } from 'src/core/API/UserService'
 
-    const token = localStorage.getItem(TOKEN_KEY) as string;
-    const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY) as string;
+  interface ISaveInformationParams {
+    user: IUser
+    access: string
+    refresh: string
+  }
 
-    const onRefreshTokens = async (): Promise<void> => {
-      try {
-        const { access, refresh } = await Api.authService.tokenRefresh(refreshToken as string);
-        userStore.onSaveToken(access, refresh);
+  export default defineComponent({
+    name: 'App',
+    setup() {
+      const userStore = useUserStore()
+      const router = useRouter()
 
-        const user = await Api.userService.getUser();
-        userStore.onSaveUser(user);
-      } catch (error: any) {
-        console.error(error);
-        userStore.onClearToken();
-        userStore.onClearUser();
-        router.push('/login');
+      const token = localStorage.getItem(TOKEN_KEY) as string
+      const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY) as string
+
+      const onSaveUserInformation = (params: ISaveInformationParams): void => {
+        const { access, refresh, user } = params ?? {}
+
+        userStore.onSaveToken(access, refresh)
+        userStore.onSaveUser(user)
       }
-    };
-    const onLoginPreSavedUser = async (): Promise<void> => {
-      try {
-        const user = await Api.userService.getUser();
-        userStore.onSaveUser(user);
-        userStore.onSaveToken(token, refreshToken);
-      } catch (error: any) {
-        const { status } = error.response;
-        if ([400, 401, 403].includes(status)) {
-          onRefreshTokens();
+
+      const onRefreshTokens = async (): Promise<void> => {
+        try {
+          const { access, refresh } = await Api.authService.tokenRefresh(
+            refreshToken as string
+          )
+          const user = await Api.userService.getUser()
+
+          onSaveUserInformation({ access, refresh, user })
+        } catch (error: any) {
+          console.error(error)
+          userStore.onClearToken()
+          userStore.onClearUser()
+          router.push('/login')
         }
-
-        console.error(error);
       }
-    };
+      const onLoginPreSavedUser = async (): Promise<void> => {
+        try {
+          const user = await Api.userService.getUser()
 
-    onMounted(() => {
-      if (token) {
-        onLoginPreSavedUser();
-      } else {
-        router.push('/login');
+          onSaveUserInformation({ user, access: token, refresh: refreshToken })
+        } catch (error) {
+          const { status } = error.response
+
+          if ([400, 401, 403].includes(status)) {
+            onRefreshTokens()
+          }
+
+          console.error(error)
+        }
       }
-    });
-  },
-});
+
+      onMounted(() => {
+        if (token) {
+          onLoginPreSavedUser()
+        }
+      })
+    },
+  })
 </script>
