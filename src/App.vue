@@ -43,10 +43,10 @@
           const { access, refresh } = await Api.authService.tokenRefresh(
             refreshToken as string
           )
+          userStore.onSaveToken(access, refresh)
           const user = await Api.userService.getUser()
-
-          onSaveUserInformation({ access, refresh, user })
-        } catch (error: any) {
+          userStore.onSaveUser(user)
+        } catch (error) {
           console.error(error)
           userStore.onClearToken()
           userStore.onClearUser()
@@ -58,7 +58,7 @@
           const user = await Api.userService.getUser()
 
           onSaveUserInformation({ user, access: token, refresh: refreshToken })
-        } catch (error) {
+        } catch (error: any) {
           const { status } = error.response
 
           if ([400, 401, 403].includes(status)) {

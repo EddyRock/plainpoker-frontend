@@ -3,26 +3,26 @@ module.exports = {
 
   parserOptions: {
     parser: require.resolve('@typescript-eslint/parser'),
-    extraFileExtensions: ['.vue']
+    extraFileExtensions: ['.vue'],
   },
 
   env: {
     browser: true,
     es2021: true,
-    node: true
+    node: true,
   },
 
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:vue/vue3-essential', // Choose your Vue configuration
     'airbnb-base',
-    'plugin:prettier/recommended' // Prettier integration
+    'plugin:prettier/recommended', // Prettier integration
   ],
 
   plugins: [
     '@typescript-eslint',
     'vue',
-    'prettier' // Runs Prettier as an ESLint rule
+    'prettier', // Runs Prettier as an ESLint rule
   ],
 
   rules: {
@@ -46,7 +46,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'prefer-promise-reject-errors': 'off',
 
-    'quotes': ['warn', 'single', { avoidEscape: true }],
+    quotes: ['warn', 'single', { avoidEscape: true }],
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-var-requires': 'off',
     'no-unused-vars': 'off',
@@ -58,7 +58,7 @@ module.exports = {
     'no-return-await': 'off',
     'no-tabs': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    'camelcase': 'off',
+    camelcase: 'off',
 
     // Enable Prettier-specific rules
     'prettier/prettier': [
@@ -70,8 +70,8 @@ module.exports = {
         endOfLine: 'auto',
         semi: false,
         tabWidth: 2,
-        printWidth: 80
-      }
-    ]
-  }
+        printWidth: 80,
+      },
+    ],
+  },
 }

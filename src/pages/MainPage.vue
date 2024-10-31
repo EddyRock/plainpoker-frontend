@@ -45,6 +45,8 @@
 
   import { TABLE_COLUMNS } from 'src/constants/rooms-table.constants'
 
+  import Api from 'src/core/API'
+
   export default defineComponent({
     setup() {
       const search = ref<string>('')
@@ -59,9 +61,19 @@
         },
       ])
 
+      const getRooms = async () => {
+        try {
+          const tt = await Api.roomsService.rooms()
+          console.log(tt)
+        } catch (error) {
+          console.error(error)
+        }
+      }
+      getRooms()
       return {
         search,
         rows,
+        getRooms,
 
         TABLE_COLUMNS,
       }

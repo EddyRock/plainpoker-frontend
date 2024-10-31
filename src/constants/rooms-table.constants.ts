@@ -1,11 +1,11 @@
-import { QTableColumn } from 'quasar';
+import { QTableColumn } from 'quasar'
 
 export interface ITableColumn {
-    name?: string;
-    required?: true;
-    label?: string;
-    align?: string;
-    sortable?: boolean;
+  name?: string
+  required?: true
+  label?: string
+  align?: string
+  sortable?: boolean
 }
 
 export const TABLE_COLUMNS: QTableColumn[] = [
@@ -51,4 +51,4 @@ export const TABLE_COLUMNS: QTableColumn[] = [
     align: 'left',
     field: '',
   },
-];
+]

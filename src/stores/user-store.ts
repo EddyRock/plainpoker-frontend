@@ -1,6 +1,9 @@
-import { defineStore } from 'pinia';
-import { TOKEN_KEY, REFRESH_TOKEN_KEY } from 'src/constants/localStorage.constants';
-import { type IUser } from 'src/core/API/UserService';
+import { defineStore } from 'pinia'
+import {
+  TOKEN_KEY,
+  REFRESH_TOKEN_KEY,
+} from 'src/constants/localStorage.constants'
+import { type IUser } from 'src/core/API/UserService'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -14,24 +17,24 @@ export const useUserStore = defineStore('user', {
   },
   actions: {
     onSaveToken(token: string, refreshToken: string): void {
-      localStorage.setItem(TOKEN_KEY, token);
-      localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+      localStorage.setItem(TOKEN_KEY, token)
+      localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken)
 
-      this.token = token;
-      this.refreshToken = refreshToken;
+      this.token = token
+      this.refreshToken = refreshToken
     },
     onSaveUser(user: IUser): void {
-      this.user = user;
+      this.user = user
     },
     onClearToken(): void {
-      localStorage.removeItem(TOKEN_KEY);
-      localStorage.removeItem(REFRESH_TOKEN_KEY);
+      localStorage.removeItem(TOKEN_KEY)
+      localStorage.removeItem(REFRESH_TOKEN_KEY)
 
-      this.token = '';
-      this.refreshToken = '';
+      this.token = ''
+      this.refreshToken = ''
     },
     onClearUser(): void {
-      this.user = {};
+      this.user = {}
     },
   },
-});
+})
